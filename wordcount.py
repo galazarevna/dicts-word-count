@@ -1,15 +1,21 @@
 """Count words in file."""
 import sys
-    
-    
+
+
 def tokenize(filename):
-    words = []
+    all_words = []
+    punc = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
     with open(filename) as f:
         for line in f:
             line = line.rstrip()
-            word = line.split()
-            words.extend(word)
-    return words
+            words = line.split()
+            for i in range(len(words)):
+                words[i] = words[i].lower()
+                for letter in words[i]:
+                    if letter in punc:
+                        words[i] = words[i].replace(letter, "")
+            all_words.extend(words)
+    return all_words
 
 
 def wordcount(tokenize):
@@ -24,8 +30,7 @@ def print_word_counts(wordcount):
         print(k, v)
 
 
-
 input_file = sys.argv[1]
-words = tokenize(input_file)
-count_words = wordcount(words)
+tokens = tokenize(input_file)
+count_words = wordcount(tokens)
 print_word_counts(count_words)
